@@ -11,7 +11,7 @@ public class WindowLocalizeSettings : EditorWindow
 {
     public static LocalizeSettings main;
     private string NameNewLanguage;
-    private bool Open,AddNewLan;
+    private bool Open, AddNewLan;
     private Vector2 scrollPosition;
     [MenuItem("Window/Localize/Settings")]
     public static void Showwin()
@@ -22,7 +22,7 @@ public class WindowLocalizeSettings : EditorWindow
             Debug.LogError("First you need to create localize file in folder Resources");
             return;
         }
-         GetWindow<WindowLocalizeSettings>("Localize Settings");
+        GetWindow<WindowLocalizeSettings>("Localize Settings");
     }
     public void OnGUI()
     {
@@ -32,24 +32,24 @@ public class WindowLocalizeSettings : EditorWindow
             if (AddNewLan)
             {
                 NameNewLanguage = EditorGUILayout.TextField("Language name", NameNewLanguage);
-                if(GUILayout.Button("Add new language"))
+                if (GUILayout.Button("Add new language"))
                 {
-                    if(main.m_lLanguage.Count > 0)
+                    if (main.m_lLanguage.Count > 0)
                     {
                         Languages lg = new Languages();
-                        lg.NameLanguage = NameNewLanguage;
-                        if(main.m_lLanguage[0].AllWards.Count > 0)
-                            foreach (var m in main.m_lLanguage[0].AllWards)
+                        lg.m_strNameLanguage = NameNewLanguage;
+                        if (main.m_lLanguage[0].m_lisAllWards.Count > 0)
+                            foreach (var m in main.m_lLanguage[0].m_lisAllWards)
                             {
-                                lg.AllWards.Add(new Word(m.Key,m.Value));
+                                lg.m_lisAllWards.Add(new Word(m.m_strKey, m.m_strValue));
                             }
                         main.m_lLanguage.Add(lg);
                     }
                     else
                     {
                         Languages lg = new Languages();
-                        lg.NameLanguage = NameNewLanguage;
-                        lg.AllWards.Add(new Word("New key", "New value"));
+                        lg.m_strNameLanguage = NameNewLanguage;
+                        lg.m_lisAllWards.Add(new Word("New key", "New value"));
                         main.m_lLanguage.Add(lg);
                     }
                 }
@@ -59,7 +59,7 @@ public class WindowLocalizeSettings : EditorWindow
             if (Open)
             {
                 if (main.m_lLanguage.Count > 0)
-                        DrowAll();
+                    DrowAll();
 
             }
             else
@@ -86,7 +86,7 @@ public class WindowLocalizeSettings : EditorWindow
                     return;
                 }
             }
-        }      
+        }
     }
     public void DrowAll()
     {
@@ -99,7 +99,7 @@ public class WindowLocalizeSettings : EditorWindow
         for (int i = 0; i < Mai.m_lLanguage.Count; i++)
         {
             EditorGUILayout.BeginHorizontal("box");
-            EditorGUILayout.LabelField(Mai.m_lLanguage[i].NameLanguage, GUILayout.Width(50));
+            EditorGUILayout.LabelField(Mai.m_lLanguage[i].m_strNameLanguage, GUILayout.Width(50));
             if (GUILayout.Button("X", GUILayout.Width(25), GUILayout.Height(25)))
             {
                 if (Mai.m_lLanguage.Count > 0)
@@ -110,21 +110,21 @@ public class WindowLocalizeSettings : EditorWindow
         }
 
         EditorGUILayout.EndHorizontal();
-        for (int a = 0; a < Mai.m_lLanguage[0].AllWards.Count; a++)
+        for (int a = 0; a < Mai.m_lLanguage[0].m_lisAllWards.Count; a++)
         {
             EditorGUILayout.BeginHorizontal();
 
             if (GUILayout.Button("X", GUILayout.Width(25), GUILayout.Height(25)))
             {
-                for (int i = 0; i < Mai.m_lLanguage.Count; i++) Mai.m_lLanguage[i].AllWards.RemoveAt(a);
+                for (int i = 0; i < Mai.m_lLanguage.Count; i++) Mai.m_lLanguage[i].m_lisAllWards.RemoveAt(a);
                 return;
             }
 
-            string NewS = EditorGUILayout.TextField(Mai.m_lLanguage[0].AllWards[a].Key);
+            string NewS = EditorGUILayout.TextField(Mai.m_lLanguage[0].m_lisAllWards[a].m_strKey);
             for (int i = 0; i < Mai.m_lLanguage.Count; i++)
             {
-                Mai.m_lLanguage[i].AllWards[a].Key = NewS;
-                Mai.m_lLanguage[i].AllWards[a].Value = EditorGUILayout.TextField(Mai.m_lLanguage[i].AllWards[a].Value);
+                Mai.m_lLanguage[i].m_lisAllWards[a].m_strKey = NewS;
+                Mai.m_lLanguage[i].m_lisAllWards[a].m_strValue = EditorGUILayout.TextField(Mai.m_lLanguage[i].m_lisAllWards[a].m_strValue);
             }
             EditorGUILayout.EndHorizontal();
         }
@@ -135,7 +135,7 @@ public class WindowLocalizeSettings : EditorWindow
         {
             foreach (var K in Mai.m_lLanguage)
             {
-                K.AllWards.Add(new Word("New Key", "New word"));
+                K.m_lisAllWards.Add(new Word("New Key", "New word"));
             }
         }
 
