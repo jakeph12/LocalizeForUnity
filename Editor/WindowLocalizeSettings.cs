@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 [System.Serializable]
 public class WindowLocalizeSettings : EditorWindow
@@ -58,6 +60,12 @@ public class WindowLocalizeSettings : EditorWindow
             {
                 if (main.m_lLanguage.Count > 0)
                         DrowAll();
+
+            }
+            else
+            {
+                if (GUILayout.Button("ExportLoc")) ExportTranslate();
+                if (GUILayout.Button("ImportLoc")) ImoprtTranslate();
             }
             if (GUILayout.Button("V")) Open = !Open;
             if (GUI.changed)
@@ -131,5 +139,24 @@ public class WindowLocalizeSettings : EditorWindow
             }
         }
 
+    }
+    public void ExportTranslate()
+    {
+        var b = new BinaryFormatter();
+
+        var w = File.OpenWrite("./Assets/Resources/Exportloc.inf");
+
+        b.Serialize(w, main.m_lLanguage);
+        w.Close();
+    }
+    public void ImoprtTranslate()
+    {
+        var b = new BinaryFormatter();
+
+        var w = File.OpenRead("./Assets/Resources/Exportloc.inf");
+
+        var data = b.Deserialize(w);
+        w.Close();
+        main.m_lLanguage.AddRange((List<Languages>)data);
     }
 }
