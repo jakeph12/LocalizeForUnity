@@ -4,16 +4,28 @@ using UnityEngine;
 
 public class TextLocalize : MonoBehaviour
 {
-    public string Key;
+       public enum TypeOfLocalize
+    {
+        Word,
+        Dialog,
+    }
+    public string m_strKey;
+    public TypeOfLocalize m_enTypeOfLocalize;
     void Start()
     {
-        LoadDictionarys.m_enChangebl = Lagnguage.Sp;
-        Debug.Log(LoadDictionarys.GetValue(Key));
+        if (m_strKey == null || m_strKey == "" || m_strKey == " ") return;
+        if (m_enTypeOfLocalize == TypeOfLocalize.Word) GetComponent<Text>().text = LoadTranslate.GetValue(m_strKey);
+        else TranlateDialog();
     }
-
-    // Update is called once per frame
-    void Update()
+    void TranlateDialog()
     {
-        
+        string d = LoadTranslate.GetValue(m_strKey);
+        string[] dp = d.Split('|');
+        var t = GetComponent<Text>();
+        t.text = dp[0];
+        for (int i = 1; i < dp.Length; i++)
+        {
+            t.text += '\n' + dp[i];
+        }
     }
 }
