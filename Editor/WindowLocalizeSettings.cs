@@ -65,7 +65,7 @@ public class WindowLocalizeSettings : EditorWindow
             else
             {
                 if (GUILayout.Button("ExportLoc")) ExportTranslate();
-                if (GUILayout.Button("ImportLoc")) ImoprtTranslate();
+                if (File.Exists("./Assets/Resources/Exportloc.inf") && GUILayout.Button("ImportLoc")) ImoprtTranslate();
             }
             if (GUILayout.Button("V")) Open = !Open;
             if (GUI.changed)
