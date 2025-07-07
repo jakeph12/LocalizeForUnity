@@ -37,7 +37,7 @@ public class LoadDictionarys : MonoBehaviour
 
     private static bool Init()
     {
-        if(m_bInit) return true;
+        if(_m_bInit) return true;
         LocalizeSettings lcst = Resources.Load<LocalizeSettings>("localize");
         if (!lcst)
         {
